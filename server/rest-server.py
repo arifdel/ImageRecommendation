@@ -6,24 +6,39 @@
 #-------------------------------------------------------------------------------------------------------------------------------                                                                                                                              
 ################################################################################################################################
 from flask import Flask, jsonify, abort, request, make_response, url_for,redirect, render_template
-from flask.ext.httpauth import HTTPBasicAuth
+from flask_httpauth import HTTPBasicAuth
 from werkzeug.utils import secure_filename
 import os
 import sys
 sys.path.append('../')
 import shutil 
 import numpy as np
-from lib.search import recommend
 import tarfile
 from datetime import datetime
 from scipy import ndimage
-from scipy.misc import imsave 
+from scipy.misc import imsave
+from lib.search import recommend
+
+
+
+
+
+
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 from tensorflow.python.platform import gfile
 app = Flask(__name__, static_url_path = "")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 auth = HTTPBasicAuth()
+
+
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+    filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 
 #==============================================================================================================================
 #                                                                                                                              
@@ -69,7 +84,7 @@ def upload_img():
             print('No selected file')
             return redirect(request.url)
         if file and allowed_file(file.filename):
-         
+
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             inputloc = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -82,14 +97,14 @@ def upload_img():
                               if not file.startswith('.')]
             images = {
 			'image0':image_list[0],
-            'image1':image_list[1],	
-			'image2':image_list[2],	
-			'image3':image_list[3],	
-			'image4':image_list[4],	
-			'image5':image_list[5],	
-			'image6':image_list[6],	
-			'image7':image_list[7],	
-			'image8':image_list[8]
+   #          'image1':image_list[1],	
+			# 'image2':image_list[2],	
+			# 'image3':image_list[3],	
+			# 'image4':image_list[4],	
+			# 'image5':image_list[5],	
+			# 'image6':image_list[6],	
+			# 'image7':image_list[7],	
+			# 'image8':image_list[8]
 		      }				
             return jsonify(images)
 

@@ -55,44 +55,44 @@ def run_bottleneck_on_image(sess, image_data, image_data_tensor,
 # Get outputs from second-to-last layer in pre-built model
 
 
-boots_files = [
-    'uploads/dogs_and_cats/Boots/' + f
+FrenchFries_files = [
+    'uploads/FrenchFries/' + f
     for 
     f
     in
-    os.listdir('uploads/dogs_and_cats/Boots')
+    os.listdir('uploads/FrenchFries')
 ]
-sandals_files = [
-    'uploads/dogs_and_cats/Sandals/' + f
+Pizza_files = [
+    'uploads/Pizza/' + f
     for 
     f
     in
-    os.listdir('uploads/dogs_and_cats/Sandals')
+    os.listdir('uploads/Pizza')
 ]
-shoes_files = [
-    'uploads/dogs_and_cats/Shoes/' + f
+VegBurger_files = [
+    'uploads/VegBurger/' + f
     for 
     f
     in
-    os.listdir('uploads/dogs_and_cats/Shoes')
+    os.listdir('uploads/VegBurger')
 ]
-slippers_files = [
-    'uploads/dogs_and_cats/Slippers/' + f
-    for 
-    f
-    in
-    os.listdir('uploads/dogs_and_cats/Slippers')
-]
-apparel_files = [
-    'uploads/dogs_and_cats/apparel/' + f
-    for 
-    f
-    in
-    os.listdir('uploads/dogs_and_cats/apparel')
-]
+# slippers_files = [
+#     'uploads/dogs_and_cats/Slippers/' + f
+#     for 
+#     f
+#     in
+#     os.listdir('uploads/dogs_and_cats/Slippers')
+# ]
+# apparel_files = [
+#     'uploads/dogs_and_cats/apparel/' + f
+#     for 
+#     f
+#     in
+#     os.listdir('uploads/dogs_and_cats/apparel')
+# ]
 
 
-all_files = boots_files + shoes_files + slippers_files + sandals_files+ apparel_files
+all_files = FrenchFries_files + Pizza_files + VegBurger_files
 
 random.shuffle(all_files)
 

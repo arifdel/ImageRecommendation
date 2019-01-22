@@ -41,18 +41,17 @@ def get_top_k_similar(image_data, pred, pred_final, k=9):
         os.mkdir('static/result')
         
     # cosine calculates the cosine distance, not similiarity. Hence no need to reverse list
-    	top_k_ind = np.argsort([cosine(image_data, pred_row) \
+        top_k_ind = np.argsort([cosine(image_data, pred_row) \
                             for ith_row, pred_row in enumerate(pred)])[:k]
         print(top_k_ind)
         
         for i, neighbor in enumerate(top_k_ind):
         	image = ndimage.imread(pred_final[neighbor])
-                
-                timestr = datetime.now().strftime("%Y%m%d%H%M%S")
-                name= timestr+"."+str(i)
-                print(name)
-                name = 'static/result/image'+"_"+name+'.jpg'
-                imsave(name, image)
+        timestr = datetime.now().strftime("%Y%m%d%H%M%S")
+        name= timestr+"."+str(i)
+        print(name)
+        name = 'static/result/image'+"_"+name+'.jpg'
+        imsave(name, image)
         	
                 
 def create_inception_graph():
@@ -84,23 +83,17 @@ def run_bottleneck_on_image(sess, image_data, image_data_tensor,
   	return bottleneck_values        
 
 def recommend(imagePath, extracted_features):
-		
-        
-        tf.reset_default_graph()
-
-		config = tf.ConfigProto(
-        	device_count = {'GPU': 0}
+  tf.reset_default_graph()
+  config = tf.ConfigProto(
+    device_count = {'GPU': 0}
 		)
+  sess = tf.Session(config=config)
+  graph, bottleneck_tensor, jpeg_data_tensor, resized_image_tensor = (create_inception_graph())
+  image_data = gfile.FastGFile(imagePath, 'rb').read()
+  features = run_bottleneck_on_image(sess, image_data, jpeg_data_tensor, bottleneck_tensor)	
 
-
-	
-        sess = tf.Session(config=config)
-		graph, bottleneck_tensor, jpeg_data_tensor, resized_image_tensor = (create_inception_graph())
-        image_data = gfile.FastGFile(imagePath, 'rb').read()
-        features = run_bottleneck_on_image(sess, image_data, jpeg_data_tensor, bottleneck_tensor)	
-
-		with open('../lib/neighbor_list_recom.pickle','rb') as f:
-					neighbor_list = pickle.load(f) 
-		print("loaded images")
-		get_top_k_similar(features, extracted_features, neighbor_list, k=9)
+  with open('../lib/neighbor_list_recom.pickle','rb') as f:
+    neighbor_list = pickle.load(f) 
+  print("loaded images")
+  get_top_k_similar(features, extracted_features, neighbor_list, k=9)
 
