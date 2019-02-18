@@ -51,15 +51,13 @@ for dbValue in range(LowerLimit , UpperLimit):
 
 print str(len(recommendlist)) + ' items recommended'
 ref2 = db.reference('FoodData/item')
-FoodName = []
 for items in recommendlist:
 	snapshot = ref2.order_by_child('energy').equal_to(float(items)).get()
 	ordered_dict = OrderedDict(snapshot)
 	for whtever in ordered_dict:
 		snapshot1 = ordered_dict.get(whtever)
-		FoodName.append(snapshot1.get('shrt_Desc'))
-		# print FoodName
-print 'checkpoint'
-for every in FoodName:
+		FoodName = [snapshot1.get('shrt_Desc')]
+	print FoodName
+
 
 print 'Recommendation Completed successfully'
